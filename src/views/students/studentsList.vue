@@ -15,7 +15,7 @@
         <i class="el-icon-search search_icon" @click="search"></i>
       </div>
       <el-table :data="studentLists.list" border style="width: 100%">
-        <el-table-column type="index" label="序号" align="center" width="50">
+        <el-table-column label="Id" prop="id" align="center" width="50">
         </el-table-column>
         <!-- <el-table-column prop="date" label="日期" width="150">
         </el-table-column> -->
@@ -137,7 +137,7 @@ export default {
   methods: {
     // 获取学生列表
     studentList(pagination = {}) {
-      console.log(pagination);
+      // console.log(pagination);
       // let {page, pageSize} = pagination
       // console.log(page, pageSize);
       this.request
@@ -169,7 +169,7 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-      } else{
+      } else {
         this.studentList();
       }
     },
@@ -186,7 +186,25 @@ export default {
       this.outerVisible = true;
     },
     // 删除按钮事件
-    handleDelete(row) {},
+    handleDelete(row) {
+      this.request.post("/student/del", { id: row.id }).then((result) => {
+        if (result.data.code == 200) {
+          this.$message({
+            type: "success",
+            message: "删除成功",
+          });
+          this.studentList();
+        } else {
+          this.$message({
+            type: "error",
+            message: "删除失败",
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    },
     // 修改或添加学生
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
@@ -222,7 +240,7 @@ export default {
           } else {
             this.$message({
               type: "error",
-              message: `${this.title}失败`,
+              message: `${result.data.msg}`,
             });
           }
         } else {
