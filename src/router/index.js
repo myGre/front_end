@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import layout from '@/layout/index.vue'
-
+import discipline from '@/router/discipline'
 Vue.use(Router)
 
 export default new Router({
@@ -24,17 +24,20 @@ export default new Router({
       name: 'home',
       redirect: '/home/index',
       component: layout,
-      location: 'el-icon-location',
       children: [
         {
           path:'/home/index',
           name: 'index',
           component: () => import('@/views/home'),
-          location: 'el-icon-location'
+          meta: {
+            title: '可视化',
+            icon: 'el-icon-location',
+          }
         }
       ],
       meta: {
-        title: '首页'
+        title: '首页',
+        icon: 'el-icon-s-home',
       }
     },
     // 学生管理页面
@@ -42,25 +45,33 @@ export default new Router({
       path: '/students',
       name: 'students',
       component: layout,
-      location: 'el-icon-location',
+      meta: {
+        title: '学生管理页面',
+        icon: 'el-icon-s-custom',
+      },
       children: [
         {
           path: '/students/list',
           name: 'studentlist',
-          location: 'el-icon-location',
-          component: () => import('@/views/students/studentsList.vue')
+          component: () => import('@/views/students/studentsList.vue'),
+          meta: {
+            title: '学生列表',
+            icon: 'el-icon-s-custom',
+          }
         },
         {
           path: '/students/wordList',
           name: 'wordList',
-          location: 'el-icon-location',
-          component: () => import('@/views/students/wordList.vue')
+          component: () => import('@/views/students/wordList.vue'),
+          meta: {
+            title: '学生作业布置',
+            icon: 'el-icon-picture-outline-round',
+          }
         },
       ],
-      meta: {
-        title: '学生管理页面'
-      }
     },
+    // 学科管理
+    discipline,
     {
       path: '*',
       name: 'NotFound',

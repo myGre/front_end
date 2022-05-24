@@ -63,7 +63,9 @@ export default {
             .then((res) => {
               // console.log(res);
               if (res.data.code == 200) {
-                this.$router.push("/home");
+                // this.$router.push("/home");
+                localStorage.setItem('TOKEN', res.data.user.token)
+                console.log(getToken('TOKEN'));
                 this.$message({
                   type: "success",
                   message: "登录成功",

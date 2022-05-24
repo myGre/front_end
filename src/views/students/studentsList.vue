@@ -14,7 +14,7 @@
         ></el-input>
         <i class="el-icon-search search_icon" @click="search"></i>
       </div>
-      <el-table :data="studentLists.list" border style="width: 100%">
+      <el-table :data="studentLists.list" border>
         <el-table-column label="Id" prop="id" align="center" width="50">
         </el-table-column>
         <!-- <el-table-column prop="date" label="日期" width="150">
@@ -23,7 +23,7 @@
         </el-table-column>
         <el-table-column prop="sex" label="性别" align="center" width="50">
         </el-table-column>
-        <el-table-column prop="address" label="地址"> </el-table-column>
+        <el-table-column prop="address" label="地址"></el-table-column>
         <el-table-column label="操作" width="150">
           <template slot-scope="{ row, $index }">
             <el-button size="mini" @click="handleEdit(row, $index)"
@@ -39,7 +39,8 @@
         </el-table-column>
       </el-table>
       <Pagination
-        :total="studentLists.total || 10"
+      v-if="studentLists.total > 0"
+        :total="studentLists.total"
         :pageSize="studentLists.pageSize"
         :page="studentLists.page"
         @pagination="studentList"
@@ -249,6 +250,7 @@ export default {
         }
       });
     },
+    // 取消修改
     resetForm(formName) {
       this.outerVisible = false;
       (this.ruleForm = {
@@ -265,17 +267,19 @@ export default {
 
 <style lang="less" scoped>
 .router-card {
-  width: 90%;
-  min-width: 800px;
-  left: 50%;
+  width: 92%;
+  min-width: 1200px;
   margin-top: 60px;
   margin-left: 4%;
   .addStudent {
     margin-bottom: 20px;
   }
   .el-card {
-    margin-bottom: 40px;
-    padding: 20px 20px 0px 20px;
+    padding: 20px;
+    margin-bottom: 60px;
+    .el-table{
+      margin-bottom: 30px;
+    }
   }
   .el-form {
     width: 90%;

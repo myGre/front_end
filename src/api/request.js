@@ -1,5 +1,6 @@
 import axios from "axios";
-
+// import { getToken} from '@/usrts/token.js'
+// console.log(getToken('TOKEN'));
 const request = axios.create({
     // 全局请求根地址
     baseURL: 'http://localhost:3000',
@@ -8,7 +9,7 @@ const request = axios.create({
     timeout: 5000,
     // 请求头
     headers: {
-        'Content-type': 'application/json; charset=utf-8'
+        'Content-type': 'application/json; charset=utf-8, Authorization',
     }
 })
 

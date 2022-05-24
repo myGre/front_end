@@ -58,8 +58,10 @@ export default {
 
 <style>
 .el-container{
+  min-height: 950px;
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
 }
 .el-header, .el-footer {
     background-color: #B3C0D1;
