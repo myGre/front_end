@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { setToken } from '../usrts/toke'
 export default {
   name: "login",
   data() {
@@ -46,7 +47,7 @@ export default {
     };
     return {
       ruleForm: {
-        userName: "admin",
+        userName: "admin1",
         password: "123456",
       },
       rules: {
@@ -59,13 +60,12 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.request
-            .post("/login", this.ruleForm)
+            .post("/users/login", this.ruleForm)
             .then((res) => {
               // console.log(res);
               if (res.data.code == 200) {
-                // this.$router.push("/home");
-                localStorage.setItem('TOKEN', res.data.user.token)
-                console.log(getToken('TOKEN'));
+                this.$router.push("/home");
+                setToken(res.data.user.token)
                 this.$message({
                   type: "success",
                   message: "登录成功",

@@ -67,15 +67,13 @@ export default {
   created() {
     this.monu = [...this.$router.options.routes];
     this.navRouter = this.$router.currentRoute.path;
-    console.log(this.navRouter);
   },
   methods: {
     handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-      console.log(this.$router.currentRoute.path);
+      // console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
   },
 };
