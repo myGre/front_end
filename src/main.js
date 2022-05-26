@@ -11,6 +11,10 @@ import request from './api/request'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
+
+import * as echarts from "echarts";
+// 基于准备好的dom，初始化echarts实例
+Vue.prototype.$echarts = echarts // 挂载在原型上
 Vue.prototype.request = request // 挂载在原型上
 /* eslint-disable no-new */
 Vue.config.productionTip = false
