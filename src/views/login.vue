@@ -64,7 +64,7 @@ export default {
             .then((res) => {
               // console.log(res);
               if (res.data.code == 200) {
-                this.$router.push("/home");
+                this.$router.push("/");
                 setToken(res.data.user.token)
                 this.$message({
                   type: "success",
@@ -94,17 +94,25 @@ export default {
 </script>
 <style lang="less" scoped>
 .el-col-8 {
-  width: 400px;
-  height: 400px;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ccc;
 
   .el-card {
     position: relative;
     width: 400px;
-    height: 200px;
+    height: 300px;
+    padding-right: 40px;
     top: 50%;
-    margin-top: -100px;
+    margin-top: -150px;
     left: 50%;
-    margin-left: 200px;
+    margin-left: -200px;
+    .el-form {
+      margin-top: 40px;
+      .el-button {
+        margin: 20px;
+      }
+    }
   }
 }
 </style>

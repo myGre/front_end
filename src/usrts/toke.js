@@ -4,9 +4,9 @@ export const setToken = (val) => {
 }
 // 获取token
 export const getToken = (TOKEN) => {
-  return localStorage.getItem(TOKEN)
+  return localStorage.getItem('TOKEN')
 }
 // 移除token
 export const removeToken = (TOKEN) => {
-  return localStorage.removeItem(TOKEN)
+  return localStorage.removeItem('TOKEN')
 }

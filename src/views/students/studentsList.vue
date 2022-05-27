@@ -85,6 +85,7 @@
 </template>
 
 <script>
+import {mapGetters, mapState} from 'vuex'
 import Pagination from "@/components/Pagination";
 export default {
   name: "studentsList",
@@ -128,6 +129,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['roles']),
+    // ...mapState({
+    //   info: state => state.user.user,
+    // }),
     sex() {
       return this.ruleForm.sex == "男" ? 1 : 0;
     },

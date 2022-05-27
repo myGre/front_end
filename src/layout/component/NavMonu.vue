@@ -55,14 +55,6 @@ export default {
     children() {
       return this.monu.filter((item) => item.hidden != true);
     },
-    /*     // item.childern.length < 2
-    childrenRoute() {
-      return this.children.filter((item) => item.children.length < 2);
-    },
-    // 过滤掉children小于2的路由
-    childrenRoutes() {
-      return this.children.filter((item) => item.children.length > 1);
-    }, */
   },
   created() {
     this.monu = [...this.$router.options.routes];

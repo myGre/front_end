@@ -3,6 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
+
+// 权限管理
+import './permission'
 // 引入全局样式
 import '@/assets/css/reset.css'
 // axios
@@ -16,11 +20,13 @@ import * as echarts from "echarts";
 // 基于准备好的dom，初始化echarts实例
 Vue.prototype.$echarts = echarts // 挂载在原型上
 Vue.prototype.request = request // 挂载在原型上
+
 /* eslint-disable no-new */
 Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

@@ -55,6 +55,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 import { removeToken, getToken } from "../../usrts/toke";
 export default {
   name: "Header",
@@ -79,7 +81,6 @@ export default {
       }
     };
     return {
-      users: {},
       drawer: false,
       ruleForm: {
         password1: "",
@@ -91,31 +92,37 @@ export default {
       },
     };
   },
+
+  computed: {
+    ...mapState({
+      users: state => state.user.user
+    })
+  },
   created() {
-    this.getInfomsg();
   },
   methods: {
-    getInfomsg() {
-      this.request
-        .post("/users/info")
-        .then((response) => {
-          if (response.data.code == 200) {
-            this.users = response.data.user[0];
-          }
-        })
-        .catch((err) => {
-          // 获取token失败或token已失效，如果有token则移除token
-          let token = getToken("TOKEN");
-          if (token) {
-            removeToken("TOKEN");
-          }
-          // 重定向到登录页面
-          setTimeout(() => {
-            location.replace("/login");
-          }, 1000);
-          console.log(err);
-        });
-    },
+    // getInfomsg() {
+    //   this.$store
+    //     .dispatch("user/getInfo")
+    //     .then((response) => {
+    //       // console.log(response);
+    //       if (response.code == 200) {
+    //         this.users = response.user[0];
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       // 获取token失败或token已失效，如果有token则移除token
+    //       let token = getToken("TOKEN");
+    //       if (token) {
+    //         removeToken("TOKEN");
+    //       }
+    //       // 重定向到登录页面
+    //       setTimeout(() => {
+    //         location.replace("/login");
+    //       }, 1000);
+    //       console.log(err);
+    //     });
+    // },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -131,7 +138,7 @@ export default {
                   message: "修改成功，3秒后返回登录页面",
                 });
                 setTimeout(() => {
-                  location.replace('/login')
+                  location.replace("/login");
                 }, 3000);
                 this.drawer = false;
               }
@@ -183,7 +190,7 @@ export default {
     top: 0px;
     right: 50px;
   }
-  img{
+  img {
     display: inline-block;
     margin-left: 30px;
     width: 62px;

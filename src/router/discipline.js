@@ -41,7 +41,8 @@ export default {
       component: () => import('@/views/discipline/correct.vue'),
       meta: {
         title: '批改',
-        icon: 'el-icon-tickets'
+        icon: 'el-icon-tickets',
+        roles: ['admin']
       },
     },
   ]
