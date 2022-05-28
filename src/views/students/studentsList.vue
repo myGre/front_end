@@ -15,7 +15,7 @@
         <i class="el-icon-search search_icon" @click="search"></i>
       </div>
       <el-table :data="studentLists.list" border>
-        <el-table-column label="Id" prop="id" align="center" width="50">
+        <el-table-column label="Id" prop="_id" align="center" width="50">
         </el-table-column>
         <!-- <el-table-column prop="date" label="日期" width="150">
         </el-table-column> -->
@@ -39,7 +39,7 @@
         </el-table-column>
       </el-table>
       <Pagination
-      v-if="studentLists.total > 0"
+        v-if="studentLists.total > 0"
         :total="studentLists.total"
         :pageSize="studentLists.pageSize"
         :page="studentLists.page"
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex'
+import { mapGetters, mapState } from "vuex";
 import Pagination from "@/components/Pagination";
 export default {
   name: "studentsList",
@@ -129,7 +129,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['roles']),
+    ...mapGetters(["roles"]),
     // ...mapState({
     //   info: state => state.user.user,
     // }),
@@ -144,7 +144,7 @@ export default {
     // 获取学生列表
     studentList(pagination = {}) {
       // console.log(pagination);
-      // let {page, pageSize} = pagination
+      let { page, pageSize } = pagination;
       // console.log(page, pageSize);
       this.request
         .post("/student/studentList", pagination)
@@ -164,12 +164,15 @@ export default {
     // 搜索
     search() {
       if (this.keyword) {
+        localStorage.setItem('KEYWORD', this.keyword)
         this.request
           .post("/student/search", { userName: this.keyword })
           .then((result) => {
-            // console.log(result);
             if (result.data.code == 200) {
-              this.studentLists.list = result.data.data;
+              result.data.data.list.forEach((item) => {
+                item.sex == 1 ? (item.sex = "男") : (item.sex = "女");
+              });
+              this.studentLists = result.data.data;
             }
           })
           .catch((err) => {
@@ -193,23 +196,25 @@ export default {
     },
     // 删除按钮事件
     handleDelete(row) {
-      this.request.post("/student/del", { id: row.id }).then((result) => {
-        if (result.data.code == 200) {
-          this.$message({
-            type: "success",
-            message: "删除成功",
-          });
-          this.studentList();
-        } else {
-          this.$message({
-            type: "error",
-            message: "删除失败",
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      })
+      this.request
+        .post("/student/del", { _id: row._id })
+        .then((result) => {
+          if (result.data.code == 200) {
+            this.$message({
+              type: "success",
+              message: "删除成功",
+            });
+            this.studentList();
+          } else {
+            this.$message({
+              type: "error",
+              message: "删除失败",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     // 修改或添加学生
     submitForm(formName) {
@@ -273,7 +278,8 @@ export default {
 <style lang="less" scoped>
 .router-card {
   width: 92%;
-  min-width: 1200px;
+  min-width: 600px;
+  max-width: 1200px;
   margin-top: 60px;
   margin-left: 4%;
   .addStudent {
@@ -282,7 +288,7 @@ export default {
   .el-card {
     padding: 20px;
     margin-bottom: 60px;
-    .el-table{
+    .el-table {
       margin-bottom: 30px;
     }
   }

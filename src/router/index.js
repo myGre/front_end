@@ -33,14 +33,10 @@ export const constantRoutes = [{
       name: 'index',
       component: () => import('@/views/home'),
       meta: {
-        title: '可视化',
+        title: '首页',
         icon: 'el-icon-location',
       }
     }],
-    meta: {
-      title: '首页',
-      icon: 'el-icon-s-home',
-    }
   },
 ]
 

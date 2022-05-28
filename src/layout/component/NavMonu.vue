@@ -30,9 +30,9 @@
             </el-submenu>
           </template>
           <template v-else>
-            <el-menu-item :key="index" :index="item.path">
-              <i :class="item.meta.icon"></i>
-              {{ item.meta.title }}
+            <el-menu-item :key="index" :index="item.children[0].path">
+              <i :class="item.children[0].meta.icon"></i>
+              {{ item.children[0].meta.title }}
             </el-menu-item>
           </template>
         </template>

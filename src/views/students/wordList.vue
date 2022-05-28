@@ -158,7 +158,7 @@ export default {
     // 删除按钮事件
     handleDelete(row) {
       this.request
-        .post("/workList/del", { id: row.id })
+        .post("/workList/del", { _id: row._id })
         .then((result) => {
           if (result.data.code == 200) {
             this.$message({
@@ -235,7 +235,8 @@ export default {
 <style lang="less" scoped>
 .router-card {
   width: 92%;
-  min-width: 1200px;
+  min-width: 600px;
+  max-width: 1200px;
   margin-top: 60px;
   margin-left: 4%;
   .addStudent {

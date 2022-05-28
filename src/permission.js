@@ -11,59 +11,8 @@ import { getToken, removeToken } from './usrts/toke'
 NProgress.configure({ showSpinner: false} ) // 配置进度条
 const whiteList = ['/login'] // 白名单
 
-// router.beforeEach( async(to, from, next) => {
-//   NProgress.start()
-//   let hasToken = getToken()
-//   // 如果有token则不能再返回登录页面
-//   if (hasToken) {
-//     if (to.path == '/login') {
-//       // next({ path: '/'} )
-//       // next()
-//       // NProgress.done()
-//     }
-//     else {
-//       const hasRoles = store.getters.roles && store.getters.length > 0
-//       // 如果有权限则直接放通，否则重新获取权限
-//       if (hasRoles) {
-//         next()
-//       } else {
-//         try {
-//           const {user} = await store.dispatch('user/getInfo')
-//           console.log(user[0].roles);
-//           const accesseRoutes = await store.dispatch('permission/generateRoutes', user[0].roles)
-//           console.log(accesseRoutes);
-//           // 添加路由
-//           // console.log(router.addRoute());
-//           router.addRoutes(accessesRoutes)
-//           next({ ...to, replace: true})
-//         } catch (error) {
-//           // next('/login')
-//           removeToken()
-//           Message({
-//             message: error || 'Has Error',
-//             type: 'error'
-//           })
-//           next(`/login?redirect=${to.path}`)
-//           NProgress.done()
-//         }
-//       }
-//     }
-//   } else {
-//     if (whiteList.indexOf(to.path) !== -1) {
-//       next()
-//     } else {
-//       // other pages that do not have permission to access are redirected to the login page.
-//       next(`/login?redirect=${to.path}`)
-//       NProgress.done()
-//     }
-//   }
-// })
-
-// router.afterEach( () => {
-//   NProgress.done()
-// })
-
-router.beforeEach(async(to, from, next) => {
+// 设置路由拦截
+router.beforeEach( (to, from, next) => {
   // start progress bar
   NProgress.start()
 
@@ -81,41 +30,43 @@ router.beforeEach(async(to, from, next) => {
       if (hasRoles) {
         next()
       } else {
-        try {
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const { user } = await store.dispatch('user/getInfo')
-          // console.log(user.role)
-          // generate accessible routes map based on roles
-          const accessRoutes = await store.dispatch('permission/generateRoutes', user[0].roles)
-
-          // dynamically add accessible routes
-          router.addRoutes(accessRoutes)
-
-          // hack method to ensure that addRoutes is complete
-          // set the replace: true, so the navigation will not leave a history record
-          next({ ...to, replace: true })
-        } catch (error) {
-          // remove token and go to login page to re-login
-          
-          Message({
-            message: error || 'Has Error',
-            type: 'error'
+          store.dispatch('user/getInfo').then(res => {
+            // remove token and go to login page to re-login
+            if (res.code == 200) {
+              // generate accessible routes map based on roles
+              store.dispatch('permission/generateRoutes', res.user[0].roles).then(res => {
+                // console.log(res);
+                // dynamically add accessible routes
+                setTimeout(() => {
+                  router.addRoutes(res)
+                }, 100);
+              })
+              // hack method to ensure that addRoutes is complete
+              // set the replace: true, so the navigation will not leave a history record
+              next({ ...to, replace: true })
+            }
           })
-          next(`/login?redirect=${to.path}`)
-          NProgress.done()
-        }
+          .catch(err => {
+            removeToken()
+            next(`/login?redirect=${to.path}`)
+            NProgress.done()
+          })
+        } 
+        next()
       }
-    }
   } else {
     /* has no token*/
-
     if (whiteList.indexOf(to.path) !== -1) {
-      removeToken()
       // in the free login whitelist, go directly
       next()
     } else {
       // other pages that do not have permission to access are redirected to the login page.
+      Message({
+        message: 'token失效, 请重新登录！',
+        type: 'error'
+      })
       next(`/login?redirect=${to.path}`)
       NProgress.done()
     }

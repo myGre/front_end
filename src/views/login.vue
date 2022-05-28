@@ -64,7 +64,8 @@ export default {
             .then((res) => {
               // console.log(res);
               if (res.data.code == 200) {
-                this.$router.push("/");
+                // this.$router.push("/");
+                location.reload('/')
                 setToken(res.data.user.token)
                 this.$message({
                   type: "success",

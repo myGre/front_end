@@ -14,11 +14,13 @@
       </el-breadcrumb>
     </el-card>
     <!-- 路由展示区 -->
-    <transition>
-      <keep-alive>
-        <router-view></router-view>
-      </keep-alive>
-    </transition>
+    <div class="router">
+      <transition>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </transition>
+    </div>
   </div>
 </template>
 
