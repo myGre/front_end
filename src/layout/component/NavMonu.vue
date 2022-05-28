@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: "NavMonu",
   data() {
@@ -51,13 +52,14 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['NavRoutes']),
     // 过滤掉没有children的路由且求children小于2的路由
     children() {
-      return this.monu.filter((item) => item.hidden != true);
+      return this.NavRoutes.filter((item) => item.hidden != true);
     },
   },
   created() {
-    this.monu = [...this.$router.options.routes];
+    // 
     this.navRouter = this.$router.currentRoute.path;
   },
   methods: {

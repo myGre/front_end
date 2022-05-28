@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import layout from '@/layout/index.vue'
 import discipline from '@/router/discipline'
+import students from '@/router/students'
 Vue.use(Router)
 
 // 解决路由跳转报错问题
@@ -45,54 +46,7 @@ export const constantRoutes = [{
 
 // 动态权限路由
 export const asyncRoutes = [
-  // 首页
-  {
-    path: '/',
-    name: 'home',
-    redirect: '/home/index',
-    component: layout,
-    children: [{
-      path: '/home/index',
-      name: 'index',
-      component: () => import('@/views/home'),
-    }],
-    meta: {
-      title: '首页',
-      icon: 'el-icon-s-home',
-    }
-  },
-  // 学生管理页面
-  {
-    path: '/students',
-    name: 'students',
-    component: layout,
-    meta: {
-      title: '学生管理页面',
-      icon: 'el-icon-s-custom',
-      roles: ['student', 'admmin']
-    },
-    children: [{
-        path: '/students/list',
-        name: 'studentlist',
-        component: () => import('@/views/students/studentsList.vue'),
-        meta: {
-          title: '学生列表',
-          icon: 'el-icon-s-custom',
-          roles: ['student', 'admmin']
-        }
-      },
-      {
-        path: '/students/wordList',
-        name: 'wordList',
-        component: () => import('@/views/students/wordList.vue'),
-        meta: {
-          title: '学生作业布置',
-          icon: 'el-icon-picture-outline-round',
-          roles: ['admmin']
-        }
-      },
-    ],
-  },
+  students,
   // 学科管理
   discipline,
 ]
